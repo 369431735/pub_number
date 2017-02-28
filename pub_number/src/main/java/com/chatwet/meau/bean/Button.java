@@ -13,13 +13,13 @@ import javax.persistence.Id;
 public class Button implements BaseEntity {
     @Id
     @GeneratedValue
-    private String id;
+    private Integer id;
     private String type;//菜单响应类型 "view" or "click",
     private String name;//菜单名称
     private String key; // click等点击类型必须 菜单KEY值，用于消息接口推送，不超过128字节
     private String url ; //view类型必须 网页链接，用户点击菜单可打开链接，不超过1024字节
     private  String media_id;//media_id类型和view_limited类型必须 调用新增永久素材接口返回的合法media_id
-    private String menuid; //
+    private String menuid;
 
     public Button() {
     }
@@ -32,11 +32,11 @@ public class Button implements BaseEntity {
         this.media_id = media_id;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

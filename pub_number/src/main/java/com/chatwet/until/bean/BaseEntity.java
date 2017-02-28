@@ -6,9 +6,9 @@ import java.io.Serializable;
  * Created by lixing on 2017/2/15.
  */
 public interface BaseEntity extends Serializable {
-    String getId();
+    Integer getId();
 
-    void setId(String var1);
+    void setId(Integer var1);
 
     String toString();
 

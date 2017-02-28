@@ -1,9 +1,7 @@
 #端口配置
 server:
-   port: 8082
-   context-path: /demo #路径配置
-girl:
- cupsize: F
- age: 15
-cupsize: B
-token: lixing
+   port: 80     #外网映射到内网的端口
+   #context-path: /demo #路径配置
+token: lixing #服务号设置的token
+appid: wx3b679a4144fcda17 #由微信公众号提供
+appsecret: 316b826324750ab3a0e6c6bf65fb108a #由微信公众号提供

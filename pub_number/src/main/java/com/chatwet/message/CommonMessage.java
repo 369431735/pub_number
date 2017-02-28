@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class CommonMessage implements BaseEntity {
     @Id
     @GeneratedValue
-    private String id;
+    private Integer id;
     private String ToUserName;	//开发者微信号
     private String FromUserName;	//发送方帐号（一个OpenID）
     private String CreateTime;	//消息创建时间 （整型）
@@ -38,12 +38,12 @@ public class CommonMessage implements BaseEntity {
     }
 
     @Override
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

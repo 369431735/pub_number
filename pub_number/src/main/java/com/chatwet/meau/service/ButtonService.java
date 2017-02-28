@@ -5,5 +5,5 @@ import com.chatwet.until.bean.EntityService;
 /**
  * Created by lixing on 2017/2/15.
  */
-public class ButtonService<Meau,MeauDao> extends EntityService {
+public class ButtonService<Button,ButtonDao> extends EntityService {
 }
