@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>生成订单</title>
+
+    <!--禁止浏览器从本地缓存中调阅页面。
+        网页不保存在缓存中，每次访问都刷新页面。-->
+    <meta http-equiv="pragram" content="no-cache">
+    <!--同上面意思差不多，必须重新加载页面-->
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅。-->
+    <meta http-equiv="expires" content="0">
+
+
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../css/orderDetail.css">
+    <link href="../css/advertising.css" rel="stylesheet">
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+    <!--等比缩放的js-->
+    <!--id="zoom" onload="zoomInOut('zoom')"-->
+    <script src="../js/bigOrSmall.js"></script>
+
+    <style>
+        .centerButton {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body id="zoom" onload="zoomInOut('zoom')" ng-app="order" ng-controller="order">
+<div id="main">
+    <div class="divState">
+        <div class="divStates btn btn-primary state" data-toggle="collapse" data-target="#list"
+             ng-click="imgDownOrUpC()">
+            <img ng-src="{{imgTime1}}" ng-model="imgTime1" class="imgTime2">
+            <img ng-src="{{imgDownOrUp}}" ng-model="imgDownOrUp" class="imgRight"
+                 ng-show="oneTime" ng-model="oneTime">
+            <div class="pState"><span class="text">{{order.placeOrderTime|date:'yyyy-MM-dd'}}</span><br>
+                <span class="blueText">{{order.staff.nickName}}</span>
+                <a href="tel:{{order.staff.phoneNumber}}" class="blueText">{{order.staff.phoneNumber}}</a>
+                <span class="text2">下单</span></div>
+        </div>
+        <div id="list" class="collapse on">
+            <div class="divStates" ng-repeat="orderTime in order.orderTimes">
+                <img ng-src="{{orderTime.img}}" class="imgTime2">
+                <div class="pState"><span class="text">{{orderTime.value|date:'yyyy-MM-dd'}}</span><br>
+                    <span class="blueText">{{orderTime.staffName}}</span>
+                    <a href="tel:{{orderTime.satffNumber}}" class="blueText">{{orderTime.satffNumber}}</a>
+                    <span class="text2">{{orderTime.projectName}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <div class="divShop">
+            <img class="imgShop" src="../image/img_shop.png">
+            <p class="textShop text">{{order.shop.name}}</p>
+            <a href="tel:{{order.shop.tels}}" class="textTime">{{order.shop.tels}}</a>
+        </div>
+        <ul class="ulCom">
+            <li ng-repeat="commodity in order.commodityItems">
+                <div class="divCom">
+                    <img class="imgCom" ng-src="{{commodity.hisCommodity.url}}">
+                    <div class="divComName">
+                        <p class="textComName">
+                            {{commodity.hisCommodity.content}}</p>
+                        <p class="textSku" ng-show="{{commodity.hisCommodity.show}}">
+                            {{commodity.hisCommodity.skuName}}</p>
+                    </div>
+                    <div class="divSku">
+                        <p class="textPrice">{{commodity.salePrice}}</p>
+                        <p class="textNum">x{{commodity.quantity}}</p>
+                        <p class="textAmount">{{commodity.amount}}</p>
+                    </div>
+                </div>
+                <!-- <div class="divCom">
+                     <img class="imgCom" ng-src="http://ehome-jia.jios.org:9090/product/+{{commodity.hisCommodity.pics}}">
+                     <div class="divComName">
+                         <p class="textComName">{{commodity.hisCommodity.brandName}}{{commodity.content}}aaaaaa</p>
+                         <p class="textSku">{{commodity.skuName}}aaaaa</p>
+                     </div>
+                     <div class="divSku">
+                         <p class="textPrice">￥{{commodity.salePrice}}aaa</p>
+                         <p class="textNum">x{{commodity.quantity}}aaa</p>
+                         <p class="textAmount">￥{{commodity.amount}}aaa</p>
+                     </div>
+                 </div>-->
+            </li>
+        </ul>
+
+    </div>
+    <div id="otherDetail" class="divOtherDetail collapse on">
+        <table class="table">
+            <tr>
+                <td>商品总额：</td>
+                <td>{{order.itemAmount}}</td>
+            </tr>
+            <tr ng-repeat="amountItem in order.amountItems">
+                <td>{{amountItem.projectName}}：</td>
+                <td>{{amountItem.amount}}</td>
+            </tr>
+            <!-- <tr ng-repeat="amountItem in order.amountItems">
+                 <td>{{amountItem.projectName}}：</td>
+                 <td onclick="priceForRMB('amountItem.amount')">￥{{amountItem.amount}}</td>
+             </tr>-->
+            <tr>
+                <td>已优惠：</td>
+                <td>{{order.favorableAmount}}</td>
+            </tr>
+            <tr class="line">
+                <td><span class="tdAmount">订单总额：</span></td>
+                <td><span class="tdAmount">{{order.totalAmount}}</span></td>
+            </tr>
+            <tr ng-repeat="payAmount in order.payAmounts">
+                <td>已付款：<br>
+                    <sapn class="getAmountTime">{{payAmount.payTime | date:'yyyy-MM-dd HH:mm:ss'}}</sapn>
+                </td>
+                <td class="numsLenth">{{payAmount.amount}}</td>
+            </tr>
+            <!--<tr ng-repeat="payAmount in order.payAmounts">
+                <td>已付款：<br>
+                    <sapn class="getAmountTime">{{payAmount.payTime | date:'yyyy-MM-dd'}}</sapn>
+                </td>
+                <td class="numsLenth" onclick="priceForRMB('payAmount.amount')">￥{{payAmount.amount}}</td>
+            </tr>-->
+        </table>
+
+    </div>
+    <div class="divNext">
+        <img class="imgMore" ng-src="{{imgMingxi}}">
+        <p class="textDeatil btn btn-primary" ng-model="mingxi" ng-click="mingxiClick()"
+           data-toggle="collapse" data-target="#otherDetail">{{mingxi}}</p>
+        <p class="textOther"><span>余款：</span><span class="bigText">{{order.unPayAmount}}</span>
+        </p>
+    </div>
+    <div class="divInfo">
+        <p><span>订单编号：</span><span>{{order.orderNumber}}</span></p>
+        <p><span>创建时间：</span><span>{{order.placeOrderTime|date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
+        <p><span>商家名称：</span><span>{{order.shop.name}}</span></p>
+        <p><span>商家地址：</span><span>{{order.shop.areaDetail}}</span></p>
+        <p class="textInfoRight"><span>{{order.shop.addrDetail}}</span></p>
+        <p class="shouhuoren"><span class="spanLeft">收</span><span class="spanLeft">货</span><span></span>人：</span>
+        </p>
+        <table>
+            <tr ng-repeat="consigne in order.address.consignees">
+                <td class="tt">{{consigne.userName}}</td>
+                <td class="tt"><span class="spanLeft"></span>{{consigne.phoneNumber}}</td>
+            </tr>
+            <!--<tr ng-repeat="consigne in order.address.consignees">
+                <td class="tt">{{consigne.userName}}aaa</td>
+                <td class="tt"><span class="spanLeft"></span>{{consigne.phoneNumber}}aaa</td>
+            </tr>-->
+        </table>
+        <p class="address"><span>收货地址：</span><span>{{order.address.areaDetail}}</span></p>
+        <p class="textInfoRight"><span>{{order.address.address}}</span></p>
+    </div>
+
+
+    <form>
+        <div class="divContent" ng-show="!confirmed">
+            <input type="checkbox" ng-click="checked(check)" ng-model="check"><span
+                class="content">我已经非常清楚订单的所有细节</span>
+        </div>
+    </form>
+
+    <button class="btnSubmit btn centerButton" id="sub" ng-click="submit()"
+            ng-model="confirm" ng-show="confirm" style="color: rgb(255,255,255)">确认订单
+    </button>
+    <button class="btnSubmit btn centerButton" id="confirmed"
+            ng-model="confirmed" ng-show="confirmed" style="color: rgb(255,255,255)">{{text}}
+    </button>
+</div>
+<div id="advertising2">
+    <a href="tel:{{order.shop.tels}}">
+        <img class="fl" src="../image/img_dts_yellow.png">
+        <p>亲，点击此处可马上联系商家</p>
+    </a>
+</div>
+</body>
+<script src="../js/advertising.js"></script>
+<script>
+    var app = angular.module('order', []);
+    app.controller('order', function ($scope, $http) {
+
+        /*状态的箭头*/
+        $scope.imgDownOrUp = '../image/img_down.png';
+        $scope.imgTime1 = '../image/img_state.png';
+        var isDown = true;
+        $scope.imgDownOrUpC = function () {
+            if (isDown) {
+                $scope.imgDownOrUp = '../image/img_up.png';
+                $scope.imgTime1 = '../image/img_state_done.png';
+                isDown = false;
+            } else {
+                $scope.imgDownOrUp = '../image/img_down.png';
+                $scope.imgTime1 = '../image/img_state.png';
+                isDown = true;
+            }
+            if ($scope.order.orderTimes.length == 0) {
+                $scope.imgTime1 = '../image/img_state.png';
+            }
+
+        }
+
+        $scope.mingxi = '查看明细';
+        $scope.imgMingxi = '../image/img_com_more.png';
+        var isMingxi = false;
+        $scope.mingxiClick = function () {
+            if (!isMingxi) {
+                $scope.mingxi = '隐藏明细';
+                $scope.imgMingxi = '../image/img_com_small.png';
+                isMingxi = true;
+            } else {
+                $scope.mingxi = '查看明细';
+                $scope.imgMingxi = '../image/img_com_more.png';
+                isMingxi = false;
+            }
+        }
+
+        /*订单信息*/
+        var STATE_UNDO = 1, STATE_DONE = 2, STATE_REFUSE = 3, STATE_CANCEL = 4;
+        var TYPE_NEW_ORDER = 1, TYPE_CONFIRM_RETURNORDER = 3;
+
+        $scope.confirm = false;//单个的确认按钮
+        $scope.confirmed = false;//已确认的按钮
+        $scope.oneTime = true;
+        /*$scope.confirm = true;
+         $scope.returnOrder = true;
+         $scope.confirmed = true;
+         document.getElementById('confirmed').disabled = 1;
+         $scope.text = '已经确认了订单';*/
+
+        var backlog;
+        $http({
+            url: '/orders/backlogDetail',
+            method: 'get'
+        }).success(function (data) {
+            backlog = data.backlog;
+            $scope.order = data.backlog.object;
+
+            /*金额显示*/
+            for (var i = 0; i < $scope.order.commodityItems.length; i++) {
+                $scope.order.commodityItems[i].salePrice = priceForRMB($scope.order.commodityItems[i].salePrice);
+                $scope.order.commodityItems[i].amount = priceForRMB($scope.order.commodityItems[i].amount);
+            }
+//            $scope.order.commodityItems.commodity.salePrice = priceForRMB($scope.order.commodityItems.commodity.salePrice);
+//            $scope.order.commodityItems.commodity.amount = priceForRMB($scope.order.commodityItems.commodity.amount);
+            $scope.order.itemAmount = priceForRMB($scope.order.itemAmount);
+            for (var i = 0; i < $scope.order.amountItems.length; i++) {
+                $scope.order.amountItems[i].amount = priceForRMB($scope.order.amountItems[i].amount);
+            }
+//            $scope.order.amountItems.amountItem.amount = priceForRMB($scope.order.amountItems.amountItem.amount);
+            for (var i = 0; i < $scope.order.payAmounts.length; i++) {
+                $scope.order.payAmounts[i].amount = priceForRMB($scope.order.payAmounts[i].amount);
+            }
+//            $scope.order.payAmounts.payAmount.amount = priceForRMB($scope.order.payAmounts.payAmount.amount);
+            $scope.order.totalAmount = priceForRMB($scope.order.totalAmount);
+            $scope.order.favorableAmount = priceForRMB($scope.order.favorableAmount);
+            $scope.order.unPayAmount = priceForRMB($scope.order.unPayAmount);
+
+            /*判断按钮的显示*/
+            if (backlog.state == STATE_UNDO) {
+                if (backlog.type == TYPE_NEW_ORDER) {
+                    $scope.confirm = true;
+                }
+            }
+
+            /*已经点击确认后的按钮显示*/
+            btnBlue('confirmed', 1);
+            if (backlog.state == STATE_UNDO) {
+                $scope.confirmed = false;
+            } else {
+                $scope.confirmed = true;
+            }
+
+            if (backlog.state == STATE_DONE) {
+                if (backlog.type == TYPE_NEW_ORDER) {
+                    $scope.text = '已经确认了订单';
+                }
+            }
+
+            /*状态的图标*/
+            if ($scope.order.orderTimes.length == 0) {
+                $scope.oneTime = false;
+            }
+            for (var i = 0; i < $scope.order.orderTimes.length; i++) {
+                var orderTime = $scope.order.orderTimes[i];
+                if (orderTime.state == 0) {
+                    orderTime.img = '../image/img_state2.png';
+                } else {
+                    orderTime.img = '../image/img_state3.png';
+                }
+
+                if (i == $scope.order.orderTimes.length - 1) {
+                    if (orderTime.state == 0) {
+                        orderTime.img = '../image/img_state4.png';
+                    } else {
+                        orderTime.img = '../image/img_state5.png';
+                    }
+                }
+            }
+
+            /*商品的图片*/
+            for (var i = 0; i < $scope.order.commodityItems.length; i++) {
+                /*型号显示*/
+                var hisCommodity = $scope.order.commodityItems[i].hisCommodity;
+                hisCommodity.show = true;
+                if (hisCommodity.skuName == '') {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == null) {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == 'undefined') {
+                    hisCommodity.show = false;
+                }
+
+                var url = imgUrl(hisCommodity.pics);
+                hisCommodity.url = url;
+
+            }
+
+            /*用户没有确认订单*/
+            if (backlog.ignorable) {
+                $scope.returnOrder = false;
+                $scope.confirmed = false;
+            }
+        }).error(function () {
+            alert('网络出问题了');
+        });
+
+        $scope.check = false;
+        btnBlue('sub', 1);
+        $scope.checked = function (check) {
+//            !check ? alert("未选中") : alert("选中");
+            if (check) {
+                btnBlue('sub', 0);
+            } else {
+                btnBlue('sub', 1);
+            }
+        }
+
+        $scope.submit = function () {
+            /*确认订单按钮*/
+            var json = {
+                modelId: backlog.modelId,
+                state: STATE_DONE,
+                type: backlog.type
+            };
+            var serParm = JSON.stringify(json);
+
+            $.ajax({
+                type: "POST",
+                url: "/orders/doBacklog",
+                contentType: "application/json",
+                data: serParm,
+                success: function (data) {
+//                    $scope.confirmed = true;
+//                    $scope.confirm = false;
+//                    $scope.text = '已经确认了订单';
+                    /*刷新当前页面*/
+                    location.reload(true);
+                    alert('订单确认成功');
+                }
+            });
+        }
+    });
+</script>
+</html>

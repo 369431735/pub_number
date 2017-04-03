@@ -1,0 +1,52 @@
+app:
+ name: DtsWxServer
+#82**\u4e2d\u63a7\u5e73\u53f0\u9884\u7559\u63a5\u53e3
+server:
+  port: 8388
+spring:
+   datasource:
+       url: jdbc:mysql://192.168.199.229:3306/dts_wx?useUnicode=true&characterEncoding=UTF-8
+       username: root
+       password: root
+       driverClassName: com.mysql.jdbc.Driver
+       testOnBorrow: true
+       validationQuery: SELECT 1
+# Specify the DBMS
+spring:
+   jpa:
+     database: MYSQL
+# Show or not log for each sql query
+     show-sql: false
+# Hibernate ddl auto (create, create-drop, update)
+     hibernate:
+          ddl-auto: update
+# Naming strategy
+          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+# stripped before adding them to the entity manager)
+     properties:
+        hibernate:
+           dialect: org.hibernate.dialect.MySQL5Dialect
+#\u5fae\u4fe1\u914d\u7f6e
+weixinToken: b610ce7792c2409a88a6a865329785d5
+weixinAppId: wx329338f4e0fc16d4
+appSecret: 08e7a49203055053c6e3f57802903fa3
+weixinEncodingAESKey: B3EB1rlA5iyXNRMoquZbIsTkFPGlwHQPXcmwd2whG3h
+
+#\u5fae\u4fe1\u6a21\u7248
+#\u8ba2\u5355\u6a21\u7248
+wechart:
+  message:
+    order: 4sTvcH8eth7dahx3pq4TYspr7YmtJdUNPk0WF3I1vKM
+#\u57df\u540d
+weixinServerName: http://wxtest.datousuan.com.cn
+#\u4e1a\u52a1\u670d\u52a1\u5668\u5730\u5740
+serviceServerName: http://192.168.199.229:8890/DaTouSuanWeb
+#\u5185\u90e8\u7cfb\u7edf\u5bc6\u94a5\uff0c\u670d\u52a1\u5668\u9a8c\u8bc1\u4f7f\u7528
+internal:
+   system:
+     sercret: 913705d50157418f9c1d3c3102e35138
+
+
+#\u5f00\u53d1\u73af\u5883postman\u4e0d\u9a8c\u8bc1token
+system:
+ environment: devEnvironment

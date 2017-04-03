@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>关于下载</title>
+
+    <!--禁止浏览器从本地缓存中调阅页面。
+        网页不保存在缓存中，每次访问都刷新页面。-->
+    <meta http-equiv="pragram" content="no-cache">
+    <!--同上面意思差不多，必须重新加载页面-->
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅。-->
+    <meta http-equiv="expires" content="0">
+
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+
+    <!--等比缩放的js-->
+    <!--id="zoom" onload="zoomInOut('zoom')" -->
+    <script src="../js/bigOrSmall.js"></script>
+
+
+    <style>
+        .divLogo {
+            height: 64px;
+            margin: 30px 0 0 80px;
+            text-align: center;
+        }
+
+        .logoLeft {
+            width: 64px;
+            height: auto;
+            display: block;
+            float: left;
+            position: relative;
+        }
+
+        .divRight {
+            display: block;
+            float: left;
+            width: auto;
+            height: 64px;
+            margin-left: 14px;
+            position: relative;
+        }
+
+        .rightLogo {
+            width: 80px;
+            height: 24px;
+            margin-top: 8px;
+        }
+
+        .rightText {
+            margin-top: 10px;
+            letter-spacing: 1px;
+            width: 80px;
+            text-align: center;
+        }
+
+        .btnSubmit {
+            width: 240px;
+            height: 40px;
+            font-size: 16px;
+            color: white;
+            border-radius: 18px;
+            border: none;
+            background: rgba(77, 77, 77, 0.5);
+            background: #85c033;
+            margin: 20px auto 8px auto;
+            display: block;
+            clear: left;
+            padding: 10px 0 0 0;
+        }
+
+        .content {
+            font-size: 10px;
+            color: #e6172f;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .iframe {
+            width: 100%;
+            margin-top: 0px;
+            margin:0px;
+            padding:0px;
+            marker-offset: 0px;
+        }
+        .iframec {
+            width: 100%;
+            margin-top: 0px;
+            margin:0px;
+            padding:0px;
+            marker-offset: 0px;
+            display: block;
+        }
+
+        .back {
+            width: 100%;
+            height: 12px;
+            background: #f1f1f1;
+        }
+
+        .divBack {
+            background: white;
+        }
+    </style>
+</head>
+<body id="zoom" onload="zoomInOut('zoom')" ng-app="order">
+<div class="divBack">
+    <!-- <div class="divLogo divBack">
+        <img class="logoLeft" src="../image/img_dts_log.png">
+        <div class="divRight">
+            <img class="rightLogo" src="../image/img_download.png">
+            <p class="rightText">帮忙不添乱</p>
+        </div>
+    </div> -->
+
+    <!--<a class="btnSubmit btn" href="http://114.55.34.93:8288/url/download/user/"
+       style="color: rgb(255,255,255)">点击下载客户端
+    </a>
+    <p class="content">马上用大头蒜管理烦人的订单、预算和日程</p>-->
+</div>
+
+<img class="iframe" src="../image/1.jpg" border="0">
+<img class="iframec" src="../image/2.jpg" border="0">
+<img class="iframec" src="../image/3.jpg" border="0">
+<img class="iframec" src="../image/4.jpg" border="0">
+<!--<iframe class="iframe" src="http://114.55.34.93:8288/url/download/user/" frameborder="0"></iframe>-->
+
+<!--<div class="back"></div>
+
+<div class="divBack">
+    <a class="btnSubmit btn" href="http://114.55.34.93:8288/url/download/user/"
+       style="color: rgb(255,255,255)">点击下载客户端
+    </a>
+    <p class="content">马上用大头蒜管理烦人的订单、预算和日程</p>
+</div>-->
+</body>
+</html>

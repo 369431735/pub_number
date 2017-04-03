@@ -1,0 +1,80 @@
+#advertising {
+    background: rgba(59, 154, 198, 0.9);
+}
+
+#advertising2 {
+    background: rgba(255, 246, 186, 0.9);
+}
+
+#advertising img, #advertising2 img {
+    width: 36px;
+    padding: 8px;
+}
+
+#advertising p, #advertising2 p {
+    font-size: 14px;
+    line-height: 143%;
+    margin: 8px 5px;
+    display: block;
+    float: left;
+}
+
+#advertising p {
+    color: white;
+}
+
+#advertising2 p {
+    color: #cc7f47;
+}
+
+.fl {
+    display: block;
+    float: left;
+}
+
+.fr {
+    display: block;
+    float: right;
+}
+
+/*方法一：固定在页面底部，不随频幕移动而动*/
+/*html, body {
+    height: 100%;
+}
+
+body:before {
+    content: "";
+    height: 100%;
+    float: left;
+    width: 0;
+    margin-top: -32767px;
+}
+
+#main {
+    min-height: 100%;
+    overflow: auto;
+    padding-bottom: 36px;
+}
+
+#advertising2,#advertising {
+    position: relative;
+    margin-top: -36px;
+    height: 36px;
+    clear: both;
+}*/
+/*方法二：固定在频幕底部*/
+#main {
+    min-height: 100%;
+    overflow: auto;
+    padding-bottom: 36px;
+}
+#advertising2,#advertising{
+    z-index: 999;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    _position: absolute;
+    overflow: visible;
+}
+

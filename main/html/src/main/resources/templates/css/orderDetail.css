@@ -1,0 +1,442 @@
+
+body {
+    background: #f1f1f1;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin: 0;
+    left: 0;
+}
+
+.text {
+    color: #4d4d4d;
+    font-size: 12px;
+}
+
+.text2 {
+    color: #4d4d4d;
+    font-size: 14px;
+}
+
+.blueText {
+    color: #3b9ac6;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.divState {
+    width: 100%;
+    height: auto;
+    margin: 0px auto 12px auto;
+    background: white;
+}
+
+.divStates {
+    width: 100%;
+    height: 48px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.imgTime {
+    display: block;
+    float: left;
+    width: 16px;
+    height: 38px;
+    margin-right: 16px;
+    margin-top: 22px;
+}
+
+.imgTime2 {
+    display: block;
+    float: left;
+    width: 16px;
+    height: 48px;
+    margin: 0 16px 0 0;
+}
+
+.imgRight {
+    width: 16px;
+    height: 8px;
+    margin-left: 16px;
+    margin-top: 20px;
+    display: block;
+    float: right;
+}
+
+.pState {
+    width: auto;
+    height: auto;
+    padding-top: 4px;
+}
+
+.item {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    background: white;
+    padding: 0 12px;
+}
+
+.divShop {
+    width: 100%;
+    height: 32px;
+    border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+}
+
+.imgShop {
+    width: 12px;
+    height: 12px;
+    display: block;
+    float: left;
+    margin: 10px 4px 0 0px;
+}
+
+.textShop {
+    display: block;
+    float: left;
+    font-size: 12px;
+    color: #4d4d4d;
+    margin: 7px 0 0 0;
+}
+
+.textTime {
+    display: block;
+    float: right;
+    font-size: 10px;
+    color: #3b9ac6;
+    margin: 8px 0px 0 0;
+}
+
+.ulCom {
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+}
+
+.divCom {
+    width: 100%;
+    height: 88px;
+    margin: 0;
+    border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+}
+
+.imgCom {
+    width: 64px;
+    height: 64px;
+    float: left;
+    display: block;
+    margin: 12px 0 0 0;
+}
+
+.divComName {
+    width: auto;
+    height: auto;
+    margin: 12px 0 0 8px;
+    float: left;
+}
+
+.textComName {
+    font-size: 14px;
+    color: #4d4d4d;
+    margin: 0;
+    width: 150px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-lines: 2;
+}
+
+.textSku {
+    margin: 4px 0 0 0;
+    width: 125px;
+    font-size: 10px;
+    color: rgba(77, 77, 77, 0.5);
+}
+
+.divSku {
+    width: auto;
+    height: auto;
+    float: right;
+    margin-top: 15px;
+}
+
+.textPrice {
+    color: rgba(75, 75, 75, 0.5);
+    font-size: 10px;
+    margin-bottom: 0px;
+    text-align: right;
+}
+
+.textNum {
+    color: rgba(75, 75, 75, 0.5);
+    font-size: 10px;
+    margin-top: 4px;
+    margin-bottom: 0px;
+    text-align: right;
+}
+
+.textAmount {
+    color: #4d4d4d;
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 0px;
+    text-align: right;
+}
+
+.divNext {
+    width: 100%;
+    height: 42px;
+    background: white;
+    margin: 0 auto 12px auto;
+    padding: 0 12px;
+}
+
+.imgMore {
+    width: 8px;
+    height: 8px;
+    display: block;
+    float: left;
+    margin-right: 4px;
+    margin-top: 16px;
+}
+
+.textDeatil {
+    color: #3b9ac6;
+    font-size: 14px;
+    display: block;
+    float: left;
+    margin: 11px 0 0 0;
+    padding: 0;
+    border: none;
+    background: white;
+
+}
+
+.textDeatil:hover {
+    background: none;
+    color: #3b9ac6;
+}
+
+.textOther {
+    font-size: 14px;
+    color: #e6172f;
+    display: block;
+    float: right;
+    margin-top: 5px;
+}
+
+.bigText{
+    font-size: 20px;
+}
+
+.divOtherDetail {
+    width: 100%;
+    height: auto;
+    background: white;
+    border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+    margin: 0 auto;
+    padding: 12px 12px 0 12px;
+}
+
+.textOtherDetail {
+    width: 100%;
+    font-size: 14pt;
+    color: #4d4d4d;
+    margin-bottom: 0;
+    text-align: right;
+}
+
+.line {
+    border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+}
+
+.getAmountTime {
+    display: block;
+    font-size: 8pt;
+    color: rgba(77, 77, 77, 0.5);
+    margin-bottom: 0;
+    text-align: right;
+    margin-right: 12px;
+}
+
+.divInfo {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    background: white;
+    padding: 12px 0px 7px 12px;
+}
+
+.divInfo p {
+    font-size: 12px;
+    color: rgba(77, 77, 77, 0.6);
+    margin-bottom: 4px;
+}
+
+.textInfoRight {
+    font-size: 12px;
+    color: rgba(77, 77, 77, 0.6);
+    margin-bottom: 0;
+    margin-left: 60px;
+}
+
+.state {
+    background: white;
+    border: none;
+    border-radius: 0;
+}
+
+.btn-primary:hover {
+    background: white;
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    text-align: left;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*-----------------点击变色-----------------------*/
+.btn-primary:active:hover, .btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover, .btn-primary:active:focus,
+.btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus,
+.btn-primary:active.focus, .btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary.focus {
+    color: #fff;
+    background-color: #eeeeee;
+    /* border-color: #122b40; */
+}
+
+.btn:active {
+    color: white;
+    background: #eeeeee;
+}
+
+.btn:visited {
+    color: white;
+}
+
+/*-----------点击变色--------------------*/
+
+.moneyMargin {
+    width: 100%;
+    padding: 8px 0 8px 0;
+}
+
+.spanLeft {
+    margin-right: 5.8px;
+}
+
+.table {
+    width: auto;
+    text-align: right;
+    margin: 0 0 0 auto;
+}
+
+.table td {
+    font-size: 14px;
+    color: #4d4d4d;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
+.table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 2px 0;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: none;
+}
+
+.tdAmount {
+    color: #85c033;
+}
+
+/*
+    订单的其他的按钮
+*/
+.content {
+    font-size: 12pt;
+    color: #e6172f;
+    margin: 4px 0 0 6px;
+}
+
+.divContent {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btnSubmit {
+    width: 240px;
+    height: 40px;
+    font-size: 16px;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    background: rgba(77, 77, 77, 0.5);
+    background: #46b8da;
+    margin: 20px auto 8px auto;
+    display: block;
+}
+
+.btnSubmitS {
+    width: 30%;
+    height: 40px;
+    font-size: 12pt;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    background: #46b8da;
+    /*display: block;*/
+    /*float: left;*/
+    margin: 17px auto 8px auto;
+    text-align: center;
+}
+
+/*
+    重复收货人
+*/
+.shouhuoren {
+    width: 60px;
+    display: block;
+    float: left;
+}
+
+.tt {
+    font-size: 12px;
+    color: rgba(77, 77, 77, 0.6);
+}
+
+.address {
+    clear: left
+}
+
+/*
+    两个按钮之间的间距
+*/
+.ml{
+    margin-right:24px;
+}
+/*文字居中*/
+.textCenter {
+    text-align: center;
+}
+

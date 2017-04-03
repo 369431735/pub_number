@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bigOrSmall.js"></script>
+    <style>
+        .a {
+            background: green;
+        }
+    </style>
+</head>
+<body ng-app="dts" ng-controller="dtss">
+<p>{{s}}</p>
+<p ng-click="data()">{{ss}}</p>
+<div ng-repeat="com in coms">
+    <p>{{com}}</p>
+</div>
+<table class="a">
+    <tr>
+        <td>666</td>
+    </tr>
+</table>
+<div style="height:30px;width: 100px;background: red"></div>
+</body>
+<script>
+    function $(id) {
+        return document.getElementById(id);
+    }
+    $(function(){
+        $(".a td").css({'width:100px'});
+    })
+    var app = angular.module('dts', []);
+    app.controller('dtss', function ($scope, $http, $interval) {
+        $scope.s = 66.0;
+        $scope.ss = 6;
+        $scope.s = priceForRMB($scope.s);
+        $scope.ss = priceForRMB($scope.ss);
+
+        $scope.coms = [];
+        $scope.data = function () {
+            for (var i = 0; i < 5; i++) {
+                $scope.coms[i] = priceForRMB(i);
+            }
+        }
+    });
+
+</script>
+</html>

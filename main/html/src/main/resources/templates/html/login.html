@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>绑定账号</title>
+
+    <!--禁止浏览器从本地缓存中调阅页面。
+        网页不保存在缓存中，每次访问都刷新页面。-->
+    <!--<meta http-equiv="pragram" content="no-cache">-->
+    <!--同上面意思差不多，必须重新加载页面-->
+    <!--<meta http-equiv="cache-control" content="no-cache, must-revalidate">-->
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅。-->
+    <!--<meta http-equiv="expires" content="0">-->
+
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+
+    <!--等比缩放的js-->
+    <!--id="zoom" onload="zoomInOut('zoom')"-->
+    <script src="../js/bigOrSmall.js"></script>
+
+    <style>
+        div {
+            position: relative;
+        }
+
+        input {
+            border: none;
+        }
+
+        .logo {
+            width: 172px;
+            height: 64px;
+            align-content: center;
+            margin: 80px auto 0 auto;
+            text-align: center;
+        }
+
+        .input {
+            width: 240px;
+            height: 36px;
+            margin: 12px auto 0 auto;
+            display: block;
+            border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+        }
+
+        .input#name {
+            margin-top: 48px;
+        }
+
+        .input input {
+            margin: 7px 0 0 0;
+        }
+
+        .imgLogo {
+            float: left;
+            display: block;
+            width: 14px;
+            height: 14px;
+            margin: 11px 8px 0 8px;
+        }
+
+        .text {
+            width: 50%;
+            color: #4d4d4d;
+        }
+
+        .logo img {
+            display: block;
+            float: left;
+        }
+
+        .logo_c {
+            margin: 16% 5px;
+            width: 15%;
+            height: auto;
+            max-width: 50px;
+        }
+
+        .btnSubmit {
+            width: 240px;
+            height: 40px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: none;
+            background: #46b8da;
+            margin: 32px auto 8px auto;
+            display: block;
+            text-align: center;
+        }
+
+        .p {
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+            text-align: center;
+        }
+
+        .textColor {
+            font-size: 10px;
+            color: #e6172f;
+        }
+
+        a {
+            font-size: 10px;
+            color: #3b9ac6;
+            text-decoration: none;
+        }
+
+        .imgLogoBig {
+            width: 64px;
+            height: 64px;
+        }
+
+        .div {
+            margin: 0;
+            padding: 0;
+        }
+
+        .btnCode {
+            padding: 0;
+            width: 74px;
+            height: 24px;
+            float: right;
+            margin: 6px 8px 0 0;
+            background: rgb(255, 186, 51);
+            border-radius: 12px;
+            border: none;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        body {
+            background: white;
+        }
+    </style>
+
+</head>
+<body id="zoom" onload="zoomInOut('zoom')" ng-app="login">
+<form>
+    <div ng-controller="submits" class="container div">
+        <div class="logo">
+            <img class="imgLogoBig" src="../image/img_dts_log.png">
+            <img class="logo_c" src="../image/img_and.png">
+            <img class="imgLogoBig" src="../image/img_weixin.png">
+        </div>
+        <div class="input" id="name">
+            <img class="imgLogo" src="../image/img_phone.png">
+            <input type="text" class="text" placeholder="请输入手机号码" ng-model="name">
+        </div>
+        <div class="input">
+            <img class="imgLogo" src="../image/img_password.png">
+            <input type="text" class="text" placeholder="请输入验证码"
+                   ng-change="change(password)" ng-model="password">
+            <button class="btn btnCode" id="subs" ng-click="getMsg()" style="color: white" ng-class="paraclass"
+                    ng-bind="paracont">获取验证码
+            </button>
+        </div>
+
+        <button id="sub" class="btnSubmit btn" ng-click="submit()"
+                style="color: rgba(255,255,255,0.5)">立即绑定
+        </button>
+        <div class="p">
+            <p><span class="textColor">绑定即认同</span><a href="userAgreement.html">《大头蒜用户协议》</a></p>
+        </div>
+    </div>
+</form>
+</body>
+
+
+<script>
+    var app = angular.module('login', []);
+    app.controller('submits', function ($scope, $http, $interval) {
+        /*
+         * 初始化
+         * */
+        $scope.name = "";
+        $scope.password = "";
+        if (localStorage.phone == null || localStorage.phone == undefined || localStorage.phone == '') {
+            $scope.name = "";
+        } else {
+            $scope.name = localStorage.phone;
+        }
+
+        /*
+         * 监听输入验证码的变化
+         * */
+        btnBlue('sub', 1);
+        $scope.change = function (password) {
+            if (password.length == 0 || password == "") {
+                btnBlue('sub', 1);
+            } else {
+                btnBlue('sub', 0);
+            }
+        }
+
+
+        /*
+         *获取验证码
+         * */
+        $scope.paracont = "获取验证码";
+        $scope.paraclass = "but_null";
+        $scope.paraevent = true;
+        var second = 120,
+                timePromise = undefined;
+        $scope.getMsg = function () {
+
+            if ($scope.name.length != 11) {
+                alert("请输入正确的手机号码");
+                return
+            }
+
+            localStorage.phone = $scope.name;
+
+//          按钮不可点击
+            btnBlue('subs', 1);
+
+            var data = $scope.name;
+
+//            transFn = function (data) {
+//                return $.param(data);
+//            };
+//            postCfg = {
+//                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+//                transformRequest: transFn
+//            };
+//            $http.post(url, data, postCfg).success(function () {
+//
+//            });
+            var phone = new Blob([$scope.name], {type: 'application/json'});
+            $http({
+                url: '/user/code',
+                method: 'post',
+                data: phone
+            }).success(function (data, header, config, status) {
+                //响应成功
+                timePromise = $interval(function () {
+                    if (second <= 0) {
+                        $interval.cancel(timePromise);
+                        timePromise = undefined;
+
+                        second = 120;
+                        $scope.paracont = "重发";
+                        $scope.paraclass = "but_null";
+                        $scope.paraevent = true;
+//                   按钮可点击
+                        btnBlue('subs', 2);
+                    } else {
+                        $scope.paracont = second + "秒";
+                        $scope.paraclass = "not but_null";
+                        second--;
+                        $scope.paraevent = false;
+//                    按钮不可点击
+                        btnBlue('subs', 1);
+                    }
+                }, 1000, 100);
+
+            }).error(function (data, header, config, status) {
+            	if(status == 500){
+	                alert("该手机已绑定其他微信号");
+            	}else{
+	                //响应失败
+	                alert("网络请求失败，请检查网络后重新获取验证码" + data);
+            	}
+//                按钮可点击
+                btnBlue('subs', 2);
+            });
+        }
+        /*
+         * 绑定
+         * */
+        $scope.submit = function () {
+            var json = {
+                phoneNumber: $scope.name,
+                variCode: $scope.password
+            };
+            var serParm = JSON.stringify(json);
+
+            $.ajax({
+                type: "POST",
+                url: "/user/bind",
+                contentType: "application/json",
+                data: serParm,
+                success: function (data) {
+                    alert("绑定成功");
+                    location.href = "orderlist.html";
+                },
+                error: function () {
+                    alert("绑定失败");
+                    location.reload(true);
+                }
+            });
+        }
+    });
+
+</script>
+</html>

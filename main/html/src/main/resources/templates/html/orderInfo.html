@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>收货人信息变动</title>
+
+
+    <!--禁止浏览器从本地缓存中调阅页面。
+        网页不保存在缓存中，每次访问都刷新页面。-->
+    <meta http-equiv="pragram" content="no-cache">
+    <!--同上面意思差不多，必须重新加载页面-->
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅。-->
+    <meta http-equiv="expires" content="0">
+
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../css/orderDetail.css">
+    <link href="../css/advertising.css" rel="stylesheet">
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+
+    <!--等比缩放的js-->
+    <!--id="zoom" onload="zoomInOut('zoom')"-->
+    <script src="../js/bigOrSmall.js"></script>
+
+    <style>
+        .divComs {
+            width: 100%;
+            height: 48px;
+            margin: 0 auto;
+            padding: 0 8px;
+            background: white;
+            border: none;
+        }
+
+        .divLine {
+            width: 260px;
+            height: 48px;
+            margin-top: 0px;
+            border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+            float: left;
+            padding: 3px 0 0 0;
+        }
+
+        .divLine span {
+            font-size: 10pt;
+            color: rgba(77, 77, 77, 0.6);
+            margin-bottom: 0;
+        }
+
+        .h1 {
+            font-size: 16px;
+            color: #4d4d4d;
+            margin: 0;
+            padding: 0;
+            line-height: 16px;
+        }
+
+        .divTitle {
+            width: auto;
+            height: 44px;
+            border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+            text-align: center;
+            padding: 14px 0px 0 0px;
+            margin: 0 12px;
+        }
+
+        .imgSize {
+            display: block;
+            float: left;
+            width: 32px;
+            height: 32px;
+            margin: 8px 8px 8px 0;
+        }
+
+        .div {
+            width: 100%;
+            height: auto;
+            background: white;
+            margin-top: 12px;
+        }
+
+    </style>
+</head>
+<body id="zoom" onload="zoomInOut('zoom')" ng-app="info" ng-controller="info">
+<div id="main">
+    <div>
+        <div class="divComs" ng-repeat="commodity in coms">
+            <img ng-src="{{commodity.hisCommodity.url}}" class="imgSize">
+            <div class="divLine"><span class="text">{{commodity.hisCommodity.content}}</span><br>
+                <p ng-show="{{commodity.hisCommodity.show}}"><span>型号：</span>
+                    <span>{{commodity.hisCommodity.skuName}}</span></p>
+            </div>
+        </div>
+        <!-- <div class="divComs">
+             <img src="../image/img_weixin.png" class="imgSize">
+             <div class="divLine"><span class="text">2015-06-09</span><br>
+                 <span>型号：</span>
+                 <span>中</span>
+                 <span>红色</span>
+             </div>
+         </div>-->
+    </div>
+    <div class="div">
+        <div class="divTitle">
+            <p class="h1">新的信息</p>
+        </div>
+    </div>
+    <div class="divInfo">
+        <p class="shouhuoren"><span class="spanLeft">收</span><span class="spanLeft">货</span><span></span>人：</span>
+            <!--<span>1501446444545454</span>-->
+        </p>
+        <table>
+            <tr ng-repeat="consigne in order.address.consignees">
+                <td class="tt">{{consigne.userName}}</td>
+                <td class="tt"><span class="spanLeft"></span>{{consigne.phoneNumber}}</td>
+            </tr>
+            <!-- <tr>
+                 <td class="tt">姓名</td>
+                 <td class="tt"><span class="spanLeft"></span>12345678963</td>
+             </tr>-->
+        </table>
+        <p class="address"><span>收货地址：</span><span>{{order.address.areaDetail}}</span></p>
+        <p class="textInfoRight"><span>{{order.address.address}}</span></p>
+    </div>
+    <button id="btn" class="btnSubmit btn textCenter" ng-click="submit()"
+            style="color: rgb(255,255,255)" ng-model="iKnow" ng-show="iKnow" ng-model="things">{{things}}
+    </button>
+</div>
+<div id="advertising2">
+    <a href="tel:{{order.shop.tels}}">
+        <img class="fl" src="../image/img_dts_yellow.png">
+        <p>亲，点击此处可马上联系商家</p>
+    </a>
+</div>
+</body>
+<script src="../js/advertising.js"></script>
+<script>
+    var app = angular.module('info', []);
+    app.controller('info', function ($scope, $http) {
+
+        var STATE_UNDO = 1, STATE_DONE = 2, STATE_REFUSE = 3, STATE_CANCEL = 4;
+        var TYPE_NEW_ORDER = 1, TYPE_CONFIRM_RETURNORDER = 3;
+
+        $scope.iKnow = true;
+
+        var url = '/orders/backlogDetail';
+        var backlog;
+        $http({
+            url: url,
+            method: 'GET'
+        }).success(function (data) {
+            backlog = data.backlog;
+            $scope.order = data.backlog.object;
+            $scope.coms = data.saleOrder.commodityItems;
+
+            /*按钮显示的文字*/
+            if (backlog.state == STATE_UNDO) {
+                btnBlue('btn', 0);
+                $scope.things = '我知道了';
+            } else {
+                btnBlue('btn', 1);
+                $scope.things = '我已经知道了';
+            }
+
+            /*商品图片*/
+            for (var i = 0; i < $scope.coms.length; i++) {
+                /*型号显示*/
+                var hisCommodity = $scope.coms[i].hisCommodity;
+                hisCommodity.show = true;
+                if (hisCommodity.skuName == '') {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == null) {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == 'undefined') {
+                    hisCommodity.show = false;
+                }
+
+                var url = imgUrl(hisCommodity.pics);
+                hisCommodity.url = url;
+            }
+
+            /*用户没有确认订单*/
+            if (backlog.ignorable) {
+                $scope.iKnow = false;
+            }
+        }).error(function (data) {
+            alert('网络出问题了:' + data);
+        });
+
+
+        $scope.submit = function () {
+            var json = {
+                modelId: backlog.modelId,
+                state: STATE_DONE,
+                type: backlog.type
+            };
+            var serParm = JSON.stringify(json);
+
+            $.ajax({
+                type: "POST",
+                url: "/orders/doBacklog",
+                contentType: "application/json",
+                data: serParm,
+                success: function (data) {
+//                    document.getElementById('btn').disabled = 1;
+//                    $scope.things = '我已经知道了';
+                    /*刷新当前页面*/
+                    location.reload(true);
+                    alert('订单确认成功');
+                }
+            });
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+
+    <!--<meta http-equiv="Access-Control-Allow-Origin" content="*">-->
+
+    <!--禁止浏览器从本地缓存中调阅页面。
+        网页不保存在缓存中，每次访问都刷新页面。-->
+    <meta http-equiv="pragram" content="no-cache">
+    <!--同上面意思差不多，必须重新加载页面-->
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅。-->
+    <meta http-equiv="expires" content="0">
+
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../css/orderDetail.css">
+    <link href="../css/advertising.css" rel="stylesheet">
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+
+    <!--等比缩放的js-->
+    <!--id="zoom" onload="zoomInOut('zoom')"-->
+    <script src="../js/bigOrSmall.js"></script>
+
+    <!-- <style>
+
+         body {
+             background: #f1f1f1;
+         }
+
+         ul {
+             list-style: none;
+             margin: 0;
+             padding: 0;
+         }
+
+         li {
+             margin: 0;
+             left: 0;
+         }
+
+         .text {
+             color: #4d4d4d;
+             font-size: 12pt;
+         }
+
+         .blueText {
+             color: #3b9ac6;
+             font-size: 14pt;
+             margin-right: 8px;
+         }
+
+         .divState {
+             width: 100%;
+             height: auto;
+             margin: 0px auto 12px auto;
+             background: white;
+         }
+
+         .divStates {
+             width: 100%;
+             height: auto;
+             max-height: 96px;
+             margin: 0 auto;
+             padding: 12px 16px;
+         }
+
+         .imgTime {
+             display: block;
+             float: left;
+             width: 16px;
+             height: 16px;
+             margin-right: 16px;
+             margin-top: 16px;
+         }
+
+         .imgRight {
+             display: block;
+             float: right;
+             width: 16px;
+             height: 16px;
+             margin-left: 16px;
+             margin-top: 16px;
+         }
+
+         .pState {
+             width: 100%;
+             height: auto;
+         }
+
+         .item {
+             width: 100%;
+             height: auto;
+             display: block;
+             margin: 0 auto;
+             background: white;
+             padding-left: 16px;
+             padding-right: 16px;
+         }
+
+         .divShop {
+             width: 100%;
+             height: auto;
+             min-height: 32px;
+             max-height: 64px;
+             display: block;
+             border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+         }
+
+         .imgShop {
+             width: 15px;
+             height: 15px;
+             display: block;
+             float: left;
+             margin-top: 8px;
+         }
+
+         .textShop {
+             display: block;
+             float: left;
+             margin: 4px 0% 0% 10px;
+         }
+
+         .textTime {
+             display: block;
+             float: right;
+             color: #3b9ac6;
+             font-size: 12pt;
+             margin: 4px 0% 0% 0%;
+         }
+
+         .ulCom {
+             width: auto;
+             padding: 0;
+             margin: 0;
+         }
+
+         .divCom {
+             width: 100%;
+             height: auto;
+             min-height: 80px;
+             max-height: 100px;
+             margin: 0 auto;
+             border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+             padding-left: 0px;
+         }
+
+         .imgCom {
+             display: block;
+             float: left;
+             width: 60px;
+             height: 60px;
+             margin-top: 8px;
+         }
+
+         .divComName {
+             width: auto;
+             height: auto;
+             float: left;
+             margin-left: 8px;
+             margin-top: 10px;
+         }
+
+         .textComName {
+             font-size: 14pt;
+             color: #4d4d4d;
+             margin: 0;
+         }
+
+         .textSku {
+             font-size: 10pt;
+             color: rgba(77, 77, 77, 0.5);
+             margin: 8px 0px 0px 0px;
+         }
+
+         .divSku {
+             width: auto;
+             height: auto;
+             float: right;
+             margin-top: 5px;
+         }
+
+         .textPrice {
+             color: #4d4d4d;
+             font-size: 10pt;
+             margin-bottom: 0px;
+             text-align: right;
+         }
+
+         .textNum {
+             color: #4d4d4d;
+             font-size: 10pt;
+             margin-top: 4px;
+             margin-bottom: 0px;
+             text-align: right;
+         }
+
+         .textAmount {
+             color: #4d4d4d;
+             font-size: 12pt;
+             margin-top: 4px;
+             margin-bottom: 0px;
+             text-align: right;
+         }
+
+         .divNext {
+             width: 100%;
+             height: auto;
+             min-height: 32px;
+             max-height: 64px;
+             background: white;
+             margin: 0 auto 24px auto;
+             padding-left: 16px;
+             padding-right: 16px;
+         }
+
+         .imgMore {
+             width: 16px;
+             height: 16px;
+             display: block;
+             float: left;
+             margin-right: 8px;
+             margin-top: 8px;
+         }
+
+         .textDeatil {
+             color: #3b9ac6;
+             font-size: 14pt;
+             display: block;
+             float: left;
+             margin: 4px 0 0 0;
+             padding: 0;
+             border: none;
+             background: white;
+
+         }
+
+         .textDeatil:hover {
+             background: none;
+             color: #3b9ac6;
+         }
+
+         .textOther {
+             font-size: 14pt;
+             color: #e6172f;
+             display: block;
+             float: right;
+             margin-top: 4px;
+         }
+
+         .divOtherDetail {
+             width: 100%;
+             height: auto;
+             background: white;
+             border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+             margin: 0 auto;
+             padding-left: 16px;
+             padding-right: 16px;
+             padding-top: 12px;
+         }
+
+         .textOtherDetail {
+             width: 100%;
+             font-size: 14pt;
+             color: #4d4d4d;
+             margin-bottom: 0;
+             text-align: right;
+         }
+
+         .line {
+             border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+         }
+
+         .getAmountTime {
+             display: block;
+             font-size: 8pt;
+             color: rgba(77, 77, 77, 0.5);
+             margin-bottom: 0;
+             text-align: right;
+         }
+
+         .divInfo {
+             width: 100%;
+             height: auto;
+             margin: 0 auto;
+             background: white;
+             padding: 12px 0px 12px 12px;
+         }
+
+         .divInfo p {
+             font-size: 12pt;
+             color: rgba(77, 77, 77, 0.6);
+             margin-bottom: 0;
+         }
+
+         .textInfoRight {
+             font-size: 12pt;
+             color: rgba(77, 77, 77, 0.6);
+             margin-bottom: 0;
+             margin-left: 80px;
+         }
+
+         .state {
+             background: white;
+             border: none;
+             border-radius: 0;
+         }
+
+         .btn-primary:hover {
+             background: white;
+         }
+
+         .btn {
+             display: inline-block;
+             margin-bottom: 0;
+             font-weight: 400;
+             line-height: 1.42857143;
+             white-space: nowrap;
+             vertical-align: middle;
+             -ms-touch-action: manipulation;
+             touch-action: manipulation;
+             cursor: pointer;
+             text-align: left;
+             -webkit-user-select: none;
+             -moz-user-select: none;
+             -ms-user-select: none;
+             user-select: none;
+         }
+
+         .moneyMargin {
+             width: 100%;
+             padding: 8px 0 8px 0;
+         }
+
+         .numsLenth {
+             width: 7.3em;
+         }
+
+         .spanLeft {
+             margin-right: 8px;
+         }
+
+         .table {
+             width: 100%;
+             text-align: right;
+             margin: 0;
+         }
+
+         .table td {
+             font-size: 14pt;
+             color: #4d4d4d;
+         }
+
+         .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
+         .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+             padding: 0;
+             line-height: 1.42857143;
+             vertical-align: top;
+             border-top: none;
+         }
+
+         .tdAmount {
+             color: #85c033;
+         }
+     </style>-->
+
+</head>
+<body id="zoom" onload="zoomInOut('zoom')" ng-app="orderDetail" ng-controller="orderDetail">
+<div style="margin-bottom:0px;">
+    <div class="divState">
+        <div class="divStates btn btn-primary state" data-toggle="collapse"
+             data-target="#list" ng-click="imgDownOrUpC()">
+            <img ng-src="{{imgTime1}}" ng-model="imgTime1" class="imgTime2">
+            <img ng-src="{{imgDownOrUp}}" ng-model="imgDownOrUp" class="imgRight"
+                 ng-show="oneTime" ng-model="oneTime">
+            <div class="pState"><span class="text">{{order.placeOrderTime|date:'yyyy-MM-dd'}}</span><br>
+                <span class="blueText">{{order.staff.nickName}}</span>
+                <a href="tel:{{order.staff.phoneNumber}}" class="blueText">{{order.staff.phoneNumber}}</a>
+                <span class="text2">下单</span></div>
+        </div>
+        <div id="list" class="collapse on">
+            <div class="divStates" ng-repeat="orderTime in order.orderTimes">
+                <img ng-src="{{orderTime.img}}" class="imgTime2">
+                <div class="pState"><span class="text">{{orderTime.value|date:'yyyy-MM-dd'}}</span><br>
+                    <span class="blueText">{{orderTime.staffName}}</span>
+                    <a href="tel:{{orderTime.satffNumber}}" class="blueText">{{orderTime.satffNumber}}</a>
+                    <span class="text2">{{orderTime.projectName}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="item">
+        <div class="divShop">
+            <img class="imgShop" src="../image/img_shop.png">
+            <p class="textShop text">{{order.shop.name}}</p>
+            <a href="tel:{{order.shop.tels}}" class="textTime">{{order.shop.tels}}</a>
+        </div>
+        <ul class="ulCom">
+            <li ng-repeat="commodity in order.commodityItems">
+                <div class="divCom">
+                    <img class="imgCom" ng-src="{{commodity.hisCommodity.url}}">
+                    <div class="divComName">
+                        <p class="textComName">{{commodity.hisCommodity.content}}</p>
+                        <p class="textSku" ng-show="{{commodity.hisCommodity.show}}">
+                            {{commodity.hisCommodity.skuName}}</p>
+                    </div>
+                    <div class="divSku">
+                        <p class="textPrice">{{commodity.salePrice}}</p>
+                        <p class="textNum">x{{commodity.quantity}}</p>
+                        <p class="textAmount">{{commodity.amount}}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+    <div id="otherDetail" class="divOtherDetail collapse on">
+        <table class="table">
+            <tr>
+                <td>商品总额：</td>
+                <td>{{order.itemAmount}}</td>
+            </tr>
+            <tr ng-repeat="amountItem in order.amountItems">
+                <td>{{amountItem.projectName}}：</td>
+                <td>{{amountItem.amount}}</td>
+            </tr>
+            <tr>
+                <td>已优惠：</td>
+                <td>{{order.favorableAmount}}</td>
+            </tr>
+            <tr class="line">
+                <td><span class="tdAmount">订单总额：</span></td>
+                <td><span class="tdAmount">{{order.totalAmount}}</span></td>
+            </tr>
+            <!--<div ng-repeat="payAmount in order.payAmounts">-->
+            <tr ng-repeat="payAmount in order.payAmounts">
+                <td>已付款：<br>
+                    <sapn class="getAmountTime">{{payAmount.payTime |date:'yyyy-MM-dd HH:mm:ss'}}</sapn>
+                </td>
+                <td class="numsLenth">{{payAmount.amount}}</td>
+            </tr>
+            <!--<tr>-->
+            <!--<td><span class="getAmountTime">{{payAmount.payTime}}</span></td>-->
+            <!--</tr>-->
+            <!--</div>-->
+        </table>
+
+        <!--  <p class="textOtherDetail"><span>商品总额：</span><span>￥2651000.00</span></p>
+          <div>
+              <p class="textOtherDetail"><span>安装费：</span><span >￥2650.00</span></p>
+              <p class="textOtherDetail"><span>配送费：</span><span >￥26.00</span></p>
+              <p class="textOtherDetail"><span>安费：</span><span >￥265100.0</span></p>
+          </div>
+          <p class="textOtherDetail"><span>已优惠：</span><span >￥2651</span></p>
+          <p class="textAllAmount line"><span>订单总额：</span><span >￥2</span></p>
+        <div class="moneyMargin">
+            <p class="textOtherDetail"><span>已付款：</span><span>￥2650.00</span></p>
+            <time class="getAmountTime">2016-05-11 21:15:35</time>
+        </div>-->
+    </div>
+    <div class="divNext">
+        <img class="imgMore" ng-src="{{imgMingxi}}">
+        <p class="textDeatil btn btn-primary" ng-model="mingxi" ng-click="mingxiClick()"
+           data-toggle="collapse"
+           data-target="#otherDetail">{{mingxi}}</p>
+        <p class="textOther"><span>余款：</span><span class="bigText">{{order.unPayAmount}}</span>
+        </p>
+    </div>
+    <div class="divInfo">
+        <p><span>订单编号：</span><span>{{order.orderNumber}}</span></p>
+        <p><span>创建时间：</span><span>{{order.placeOrderTime |date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
+        <p><span>商家名称：</span><span>{{order.shop.name}}</span></p>
+        <p><span>商家地址：</span><span>{{order.shop.areaDetail}}</span></p>
+        <p class="textInfoRight"><span>{{order.shop.addrDetail}}</span></p>
+        <p class="shouhuoren"><span class="spanLeft">收</span><span class="spanLeft">货</span><span>人：</span>
+        </p>
+        <table>
+            <tr ng-repeat="consigne in order.address.consignees">
+                <td class="tt">{{consigne.userName}}</td>
+                <td class="tt"><span class="spanLeft"></span>{{consigne.phoneNumber}}</td>
+            </tr>
+        </table>
+        <p class="address"><span>收货地址：</span><span>{{order.address.areaDetail}}</span></p>
+        <p class="textInfoRight"><span>{{order.address.address}}</span></p>
+    </div>
+</div>
+<!--<div id="advertising">
+    <img class="fl" src="../image/img_dts_white.png">
+    <p>立即下载大头蒜APP，乐享更多服务</p>
+    <img class="fr" src="../image/img_off.png" onclick="advertisingShow()">
+</div>-->
+</body>
+<script src="../js/advertising.js"></script>
+<script>
+    var app = angular.module('orderDetail', []);
+    app.controller('orderDetail', function ($scope, $http) {
+//        var url = location.search;
+//        var Requset = new Object();
+//        if (url.indexOf('?') != -1) {
+//            var str = url.substr(1);
+//            var strs = str.split("&");
+//            for (var i = 0; i < strs.length; i++) {
+//                Requset[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+//            }
+//        }
+//        var orderId = Requset["orderId"];
+
+        $scope.imgDownOrUp = '../image/img_down.png';
+        $scope.imgTime1 = '../image/img_state.png';
+        var isDown = true;
+        $scope.imgDownOrUpC = function () {
+            if (isDown) {
+                $scope.imgDownOrUp = '../image/img_up.png';
+                $scope.imgTime1 = '../image/img_state_done.png';
+                isDown = false;
+            } else {
+                $scope.imgDownOrUp = '../image/img_down.png';
+                $scope.imgTime1 = '../image/img_state.png';
+                isDown = true;
+            }
+            if ($scope.order.orderTimes.length == 0) {
+                $scope.imgTime1 = '../image/img_state.png';
+            }
+        }
+
+        $scope.mingxi = '查看明细';
+        $scope.imgMingxi = '../image/img_com_more.png';
+        var isMingxi = false;
+        $scope.mingxiClick = function () {
+            if (!isMingxi) {
+                $scope.mingxi = '隐藏明细';
+                $scope.imgMingxi = '../image/img_com_small.png';
+                isMingxi = true;
+            } else {
+                $scope.mingxi = '查看明细';
+                $scope.imgMingxi = '../image/img_com_more.png';
+                isMingxi = false;
+            }
+        }
+
+        $scope.oneTime = true;
+
+        var orderId = localStorage.orderId;
+
+        var url = '/orders/detail?orderId=' + orderId;
+        $http({
+            url: url,
+            method: 'GET'
+        }).success(function (data) {
+
+            /*金额显示*/
+//            $scope.sp = priceForRMB(data.commodityItems.commodity.salePrice);
+//            $scope.ca = priceForRMB(data.commodityItems.commodity.amount);
+//            $scope.ia = priceForRMB(data.itemAmount);
+//            $scope.aa = priceForRMB(data.amountItems.amountItem.amount);
+//            $scope.fa = priceForRMB(data.favorableAmount);
+//            $scope.ta = priceForRMB(data.totalAmount);
+//            $scope.pa = priceForRMB(data.payAmounts.payAmount.amount);
+//            $scope.ua = priceForRMB(data.unPayAmount);
+            for (var i = 0; i < data.commodityItems.length; i++) {
+                data.commodityItems[i].salePrice = priceForRMB(data.commodityItems[i].salePrice);
+                data.commodityItems[i].amount = priceForRMB(data.commodityItems[i].amount);
+            }
+//            data.commodityItems.commodity.salePrice = priceForRMB(data.commodityItems.commodity.salePrice);
+//            data.commodityItems.commodity.amount = priceForRMB(data.commodityItems.commodity.amount);
+            data.itemAmount = priceForRMB(data.itemAmount);
+            for (var i = 0; i < data.amountItems.length; i++) {
+                data.amountItems[i].amount = priceForRMB(data.amountItems[i].amount);
+            }
+//            data.amountItems.amountItem.amount = priceForRMB(data.amountItems.amountItem.amount);
+            data.favorableAmount = priceForRMB(data.favorableAmount);
+            data.totalAmount = priceForRMB(data.totalAmount);
+            data.unPayAmount = priceForRMB(data.unPayAmount);
+            for (var i = 0; i < data.payAmounts.length; i++) {
+                data.payAmounts[i].amount = priceForRMB(data.payAmounts[i].amount);
+            }
+//            data.payAmounts.payAmount.amount = priceForRMB(data.payAmounts.payAmount.amount);
+
+            $scope.order = data;
+            /*状态的图标*/
+            if ($scope.order.orderTimes.length == 0) {
+                $scope.oneTime = false;
+            }
+            for (var i = 0; i < $scope.order.orderTimes.length; i++) {
+                var orderTime = $scope.order.orderTimes[i];
+                if (orderTime.state == 0) {
+                    orderTime.img = '../image/img_state2.png';
+                } else {
+                    orderTime.img = '../image/img_state3.png';
+                }
+
+                if (i == $scope.order.orderTimes.length - 1) {
+                    if (orderTime.state == 0) {
+                        orderTime.img = '../image/img_state4.png';
+                    } else {
+                        orderTime.img = '../image/img_state5.png';
+                    }
+                }
+            }
+            /*商品图片*/
+            for (var i = 0; i < $scope.order.commodityItems.length; i++) {
+                /*型号显示*/
+                var hisCommodity = $scope.order.commodityItems[i].hisCommodity;
+                hisCommodity.show = true;
+                if (hisCommodity.skuName == '') {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == null) {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == 'undefined') {
+                    hisCommodity.show = false;
+                }
+
+
+                var url = imgUrl(hisCommodity.pics);
+                hisCommodity.url = url;
+
+            }
+
+            /*判断金额的宽度*/
+        }).error(function () {
+            alert('网络出问题了');
+        });
+    });
+
+</script>
+</html>

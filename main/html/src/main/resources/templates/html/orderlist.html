@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>订单列表</title>
+
+    <!--禁止浏览器从本地缓存中调阅页面。
+       网页不保存在缓存中，每次访问都刷新页面。-->
+    <meta http-equiv="pragram" content="no-cache">
+    <!--同上面意思差不多，必须重新加载页面-->
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅。-->
+    <meta http-equiv="expires" content="0">
+
+
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <link href="../css/advertising.css" rel="stylesheet">
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+
+    <!--等比缩放的js-->
+    <!--id="zoom" onload="zoomInOut('zoom')"-->
+    <script src="../js/bigOrSmall.js"></script>
+
+    <style>
+        body {
+            background: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .divBackground {
+            width: 92%;
+            height: auto;
+            background: white;
+            margin: 12px auto 0 auto;
+            border: solid rgba(77, 77, 77, 0.2) 1px;
+        }
+
+        .item {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .divShop {
+            width: 280px;
+            height: 32px;
+            display: block;
+            border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+            margin: 0 8px;
+        }
+
+        .imgShop {
+            width: 12px;
+            height: 12px;
+            display: block;
+            float: left;
+            margin: 10px 4px 0 0px;
+        }
+
+        .textShop {
+            display: block;
+            float: left;
+            font-size: 12px;
+            color: #4d4d4d;
+            margin: 7px 0 0 0;
+        }
+
+        .textTime {
+            display: block;
+            float: right;
+            font-size: 10px;
+            color: #4d4d4d;
+            margin: 8px 0px 0 0;
+        }
+
+        .divCom {
+            width: 280px;
+            height: 88px;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+        }
+
+        .divComDetail {
+            width: auto;
+            height: auto;
+            margin: 12px 0 0 8px;
+            float: left;
+        }
+
+        .imgCom {
+            width: 64px;
+            height: 64px;
+            float: left;
+            display: block;
+            margin: 12px 0 0 0;
+        }
+
+        .textComName {
+            font-size: 14px;
+            color: #4d4d4d;
+            margin: 0;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 200px;
+            max-lines: 1;
+        }
+
+        .textSku {
+            margin: 4px 0 0 0;
+            font-size: 10pt;
+            color: rgba(77, 77, 77, 0.5);
+        }
+
+        .money {
+            font-size: 20px;
+            color: #e6172f;
+            float: left;
+            display: block;
+            padding: 0;
+            margin: 2px 0 0 0px;
+        }
+
+        .divNext {
+            width: 280px;
+            height: 32px;
+            margin: 0 8px;
+        }
+
+        .divNextTime {
+            float: right;
+        }
+
+        .imgNext {
+            float: right;
+            display: block;
+            width: 12px;
+            height: 12px;
+            margin-top: 10px;
+        }
+
+        .textNextName {
+            float: right;
+            display: block;
+            font-size: 12px;
+            color: #4d4d4d;
+            margin: 8px 0 0 8px;
+        }
+
+        .textNextTime {
+            float: right;
+            display: block;
+            margin-right: 5px;
+        }
+
+        .divSearch {
+            margin: 0 auto;
+            width: 100%;
+            height: 49px;
+            background: #393a3f;
+            padding-top: 0px;
+        }
+
+        .search {
+            width: 296px;
+            height: 36px;
+            border-radius: 6px;
+            background: white;
+            margin: 0 auto;
+        }
+
+        .imgSearch {
+            width: 14px;
+            height: 14px;
+            margin-top: 11px;
+            float: right;
+            margin-right: 12px;
+        }
+
+        .inputSearch {
+            width: 200px;
+            height: auto;
+            font-size: 14px;
+            color: #4d4d4d;
+            border: none;
+            margin: 8px 0 0 12px;
+        }
+
+        .imgRemove {
+            width: 14px;
+            height: 14px;
+            margin-top: 11px;
+            float: right;
+        }
+
+        .imgState {
+            width: 63px;
+            height: 63px;
+            float: right;
+            margin: -67px 24px 0 0;
+        }
+
+        .line {
+            background: #3F454F;
+            height: 20px;
+            width: 1px;
+            margin: 8px 12px;
+            float: right;
+        }
+    </style>
+    <!--<style>
+        body {
+            background: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .li {
+            margin-top: 4%;
+            width: 100%;
+            height: 100%;
+        }
+
+        .divBackground {
+            background: white;
+            margin-left: 5%;
+            margin-right: 5%;
+            width: 90%;
+            height: auto;
+            border: solid rgba(77, 77, 77, 0.2) 1px;
+            padding: 0 8px;
+        }
+
+        .item {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .divShop {
+            width: 100%;
+            height: 20%;
+            min-height: 45px;
+            max-height: 64px;
+            display: block;
+            border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+        }
+
+        .imgShop {
+            width: 18px;
+            height: 18px;
+            display: block;
+            float: left;
+            margin: 13px 8px 0 5px;
+        }
+
+        .textShop {
+            display: block;
+            float: left;
+            font-size: 12pt;
+            color: #4d4d4d;
+            margin: 11px 0 0 0;
+        }
+
+        .textTime {
+            display: block;
+            float: right;
+            font-size: 12pt;
+            color: #4d4d4d;
+            margin: 11px 5px 0 0;
+        }
+
+        .divCom {
+            width: 100%;
+            height: auto;
+            max-height: 176px;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(77, 77, 77, 0.2);
+        }
+
+        .divComDetail {
+            margin-left: 25%;
+            width: 60%;
+            height: auto;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .imgCom {
+            max-width: 60px;
+            max-height: 60px;
+            width: 20%;
+            height: auto;
+            float: left;
+            display: block;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+
+        .textComName {
+            font-size: 14pt;
+            color: #4d4d4d;
+            margin: 0;
+            max-height: 52px;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 200px;
+            max-lines: 2;
+        }
+
+        .textSku {
+            margin: 8px 0 0 0;
+            font-size: 10pt;
+            color: rgba(77, 77, 77, 0.5);
+        }
+
+        .money {
+            font-size: 15pt;
+            color: #e6172f;
+            float: left;
+            display: block;
+            padding: 0;
+            margin: 11px 0 0 5px;
+        }
+
+        .divNext {
+            width: 100%;
+            height: 20%;
+            min-height: 45px;
+            max-height: 64px;
+        }
+
+        .divNextTime {
+            float: right;
+        }
+
+        .imgNext {
+            float: right;
+            display: block;
+            width: 12px;
+            height: 12px;
+            margin-top: 15px;
+        }
+
+        .textNextName {
+            float: right;
+            display: block;
+            margin-right: 8px;
+            margin-left: 8px;
+        }
+
+        .textNextTime {
+            float: right;
+            display: block;
+            margin-right: 5px;
+        }
+
+        .divSearch {
+            margin: 0 auto;
+            width: 100%;
+            height: 49px;
+            background: black;
+            padding-top: 8px;
+        }
+
+        .search {
+            width: 296px;
+            height: 36px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            border: 1px solid white;
+            background: white;
+            margin: 0 auto;
+        }
+
+        .imgSearch {
+            width: 14px;
+            height: 14px;
+            margin-top: 11px;
+            float: left;
+            margin-left: 12px;
+        }
+
+        .inputSearch {
+            width: 228px;
+            height: auto;
+            font-size: 14px;
+            color: #4d4d4d;
+            border: none;
+            margin:9px 0 0 12px;
+        }
+
+        .imgRemove {
+            width: 14px;
+            height: 14px;
+            margin-top: 11px;
+            float: right;
+            margin-right: 12px;
+        }
+
+        .imgState {
+            width: 60px;
+            height: auto;
+            float: right;
+            margin-top: -65px;
+            margin-right: 5px;
+        }
+    </style>-->
+</head>
+<body id="zoom" onload="zoomInOut('zoom')" ng-app="orderList" ng-controller="orderList">
+
+<form>
+    <div class="divSearch">
+        <div class="search">
+            <input type="text" class="inputSearch" placeholder="商家名称/商品名称均可以查询"
+                   ng-change="change(searchName)" ng-model="searchName">
+            <img class="imgSearch" src="../image/img_search.png" ng-click="search()">
+            <div class="line"></div>
+            <img class="imgRemove" ng-show="imgRemove" ng-model="imgRemove" src="../image/img_remove.png"
+                 ng-click="remove()">
+        </div>
+    </div>
+</form>
+<div style="margin-bottom:0px;">
+    <div class="divBackground li" id="o" ng-click="orderDetail(order)" ng-repeat="order in orders">
+        <!--<a class="item" href="#">-->
+        <div class="divShop">
+            <img class="imgShop" src="../image/img_shop.png">
+            <p class="textShop">{{order.shop.name}}</p>
+            <p class="textTime">{{order.placeOrderTime|date:'yyyy-MM-dd'}}</p>
+        </div>
+        <!--自动订单商品-->
+        <div class="divCom" ng-repeat="commodity in order.commodityItems">
+            <img alt="商品图片" class="imgCom"
+                 ng-src="{{commodity.hisCommodity.url}}">
+            <div class="divComDetail">
+                <p class="textComName">{{commodity.hisCommodity.content}}</p>
+                <p class="textSku" ng-show="{{commodity.hisCommodity.show}}">型号：{{commodity.hisCommodity.skuName}}</p>
+                <p class="textSku">数量：x{{commodity.quantity}}</p>
+            </div>
+        </div>
+        <!--<div class="divCom">
+            <img class="imgCom" src="../image/img_weixin.png">
+            <div class="divComDetail">
+                <p class="textComName">{{order.comName}}</p>
+                <p class="textSku">{{order.skuName}}</p>
+                <p class="textSku">{{order.nums}}</p>
+            </div>
+        </div>-->
+        <div class="divNext">
+            <p class="money">{{order.totalAmount}}</p>
+            <div class="divNextTime">
+                <!--<p class="textNextTime textShop">{{order.saleOrder.showTime}}</p>-->
+                <p class="textNextName textShop">{{order.showTime}}</p>
+                <img class="imgNext" src="../image/img_time.png">
+            </div>
+        </div>
+        <!--</a>-->
+        <!--状态表示图标-->
+        <img class="imgState" alt="订单状态" ng-src="{{order.stateUrl}}" ng-show="order.show">
+    </div>
+</div>
+
+<!--<div id="advertising">
+    <img class="fl" src="../image/img_dts_white.png">
+    <p>立即下载大头蒜APP，乐享更多服务</p>
+    <img class="fr" src="../image/img_off.png" onclick="advertisingShow()">
+</div>-->
+</body>
+<script src="../js/advertising.js"></script>
+<script>
+    var app = angular.module('orderList', []);
+    app.controller('orderList', function ($scope, $http) {
+
+        function datas(data) {
+            for (var i = 0; i < data.length; i++) {
+                /*根据状态判断该显示哪个图片*/
+                var show = true;
+                var stateUrl = '';
+                if (data[i].cancel) {
+                    stateUrl = '../image/img_cancel.png';
+                } else if (data[i].retCommodity) {
+                    stateUrl = '../image/img_return.png';
+                } else {
+                    show = false;
+                }
+
+                data[i].stateUrl = stateUrl;
+                data[i].show = show;
+            }
+            $scope.orders = data;
+
+            /*商品图片*/
+            for (var j = 0; j < $scope.orders.length; j++) {
+                $scope.orders[j].totalAmount = priceForRMB($scope.orders[j].totalAmount);
+                for (var i = 0; i < $scope.orders[j].commodityItems.length; i++) {
+                    /*型号显示*/
+                    var hisCommodity = $scope.orders[j].commodityItems[i].hisCommodity;
+                    hisCommodity.show = true;
+                    if (hisCommodity.skuName == '') {
+                        hisCommodity.show = false;
+                    }
+                    if (hisCommodity.skuName == null) {
+                        hisCommodity.show = false;
+                    }
+                    if (hisCommodity.skuName == 'undefined') {
+                        hisCommodity.show = false;
+                    }
+
+                    var url = imgUrl(hisCommodity.pics);
+                    hisCommodity.url = url;
+
+                }
+            }
+        }
+
+        $http({
+            url: '/orders',
+            method: 'GET'
+        }).success(function (data) {
+            datas(data);
+        }).error(function (data) {
+            alert('网络出问题了:' + data)
+        });
+
+        /*
+         * 监听输入框的变化
+         * */
+        $scope.change = function (searchName) {
+            if (searchName.length == 0 || searchName == "") {
+                $scope.imgRemove = false;
+            } else {
+                $scope.imgRemove = true;
+            }
+        }
+
+        /*点击事件*/
+        $scope.search = function () {
+//            调用搜索的方法
+            if ($scope.searchName.length == 0) {
+                return;
+            }
+            $http({
+                url: '/orders/search/' + $scope.searchName,
+                method: 'GET'
+            }).success(function (data) {
+                datas(data);
+            }).error(function (data) {
+                alert('网络出问题了:' + data)
+            });
+        }
+        $scope.remove = function () {
+            $scope.searchName = "";
+            $scope.imgRemove = false;
+            $http({
+                url: '/orders',
+                method: 'GET'
+            }).success(function (data) {
+                datas(data);
+            }).error(function (data) {
+                alert('网络出问题了:' + data)
+            });
+        }
+        $scope.orderDetail = function (order) {
+//            if (order.saleOrder != null) {
+//                alert('订单详情' + $scope.orders + '\n' + order.saleOrder.shop.name);
+//            } else {
+//                alert('订单详情' + $scope.orders + '\n' + order.localOrder.shopName);
+//            }
+//            调用获取订单详情的方法
+            //在原页面跳转
+            localStorage.orderId = order.modelId;
+            location.href = "orderDeatil.html";
+//            location.href = "orderDeatil.html?orderId=" + order.modelId;
+
+        }
+    });
+</script>
+</html>

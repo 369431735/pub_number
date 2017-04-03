@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>退货</title>
+
+    <!--禁止浏览器从本地缓存中调阅页面。
+        网页不保存在缓存中，每次访问都刷新页面。-->
+    <meta http-equiv="pragram" content="no-cache">
+    <!--同上面意思差不多，必须重新加载页面-->
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate">
+    <!--网页在缓存中的过期时间为0，一旦网页过期，必须从服务器上重新订阅。-->
+    <meta http-equiv="expires" content="0">
+
+
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../css/orderDetail.css">
+    <link href="../css/advertising.css" rel="stylesheet">
+
+    <script src="//cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+    <script src="//cdn.bootcss.com/angular.js/1.5.5/angular.js"></script>
+    <!--等比缩放的js-->
+    <!--id="zoom" onload="zoomInOut('zoom')"-->
+    <script src="../js/bigOrSmall.js"></script>
+
+    <style>
+        .centerButton {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body id="zoom" onload="zoomInOut('zoom')" ng-app="order" ng-controller="order">
+<div id="main">
+    <div class="item">
+        <div class="divShop">
+            <img class="imgShop" src="../image/img_shop.png">
+            <p class="textShop text">{{saleOrder.shop.name}}</p>
+            <a href="tel:{{saleOrder.shop.tels}}" class="textTime">{{saleOrder.shop.tels}}</a>
+        </div>
+        <ul class="ulCom">
+            <li ng-repeat="commodity in order.returnItems">
+                <div class="divCom">
+                    <img class="imgCom" ng-src="{{commodity.hisCommodity.url}}">
+                    <div class="divComName">
+                        <p class="textComName">
+                            {{commodity.hisCommodity.content}}</p>
+                        <p class="textSku" ng-show="{{commodity.hisCommodity.show}}">
+                            {{commodity.hisCommodity.skuName}}</p>
+                    </div>
+                    <div class="divSku">
+                        <p class="textPrice">{{commodity.returnPrice}}</p>
+                        <p class="textNum">x{{commodity.quantity}}</p>
+                        <p class="textAmount">{{commodity.amount}}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+    <div id="otherDetail" class="divOtherDetail collapse on">
+        <table class="table">
+            <tr>
+                <td>商品总额：</td>
+                <td>{{saleOrder.itemAmount}}</td>
+            </tr>
+            <tr ng-repeat="amountItem in saleOrder.amountItems">
+                <td>{{amountItem.projectName}}：</td>
+                <td>{{amountItem.amount}}</td>
+            </tr>
+            <!-- <tr ng-repeat="amountItem in order.amountItems">
+                 <td>{{amountItem.projectName}}：</td>
+                 <td onclick="priceForRMB('amountItem.amount')">￥{{amountItem.amount}}</td>
+             </tr>-->
+            <tr>
+                <td>已优惠：</td>
+                <td>{{saleOrder.favorableAmount}}</td>
+            </tr>
+            <tr class="line">
+                <td><span class="tdAmount">订单总额：</span></td>
+                <td><span class="tdAmount">{{saleOrder.totalAmount}}</span>
+                </td>
+            </tr>
+            <tr ng-repeat="payAmount in saleOrder.payAmounts">
+                <td>已退款：<br>
+                    <sapn class="getAmountTime">{{payAmount.payTime | date:'yyyy-MM-dd HH:mm:ss'}}</sapn>
+                </td>
+                <td class="numsLenth">{{payAmount.amount}}</td>
+            </tr>
+            <!--<tr ng-repeat="payAmount in order.payAmounts">
+                <td>已付款：<br>
+                    <sapn class="getAmountTime">{{payAmount.payTime | date:'yyyy-MM-dd'}}</sapn>
+                </td>
+                <td class="numsLenth" onclick="priceForRMB('payAmount.amount')">￥{{payAmount.amount}}</td>
+            </tr>-->
+        </table>
+
+    </div>
+    <div class="divNext" ng-show="false">
+        <img class="imgMore" ng-src="{{imgMingxi}}" ng-show="false">
+        <p class="textDeatil btn btn-primary" ng-model="mingxi" ng-show="false" ng-click="mingxiClick()"
+           data-toggle="collapse" data-target="#otherDetail">{{mingxi}}</p>
+        <p class="textOther" ng-show="false"><span>退款：</span><span class="bigText">{{order.totaltAmount}}</span>
+        </p>
+    </div>
+    <div class="divInfo">
+        <p><span>订单编号：</span><span>{{saleOrder.orderNumber}}</span></p>
+        <p><span>创建时间：</span><span>{{saleOrder.placeOrderTime|date:'yyyy-MM-dd HH:mm:ss'}}</span></p>
+        <p><span>商家名称：</span><span>{{saleOrder.shop.name}}</span></p>
+        <p><span>商家地址：</span><span>{{saleOrder.shop.areaDetail}}</span></p>
+        <p class="textInfoRight"><span>{{saleOrder.shop.addrDetail}}</span></p>
+        <p class="shouhuoren"><span class="spanLeft">收</span><span class="spanLeft">货</span><span></span>人：</span>
+        </p>
+        <table>
+            <tr ng-repeat="consigne in saleOrder.address.consignees">
+                <td class="tt">{{consigne.userName}}</td>
+                <td class="tt"><span class="spanLeft"></span>{{consigne.phoneNumber}}</td>
+            </tr>
+            <!--<tr ng-repeat="consigne in order.address.consignees">
+                <td class="tt">{{consigne.userName}}aaa</td>
+                <td class="tt"><span class="spanLeft"></span>{{consigne.phoneNumber}}aaa</td>
+            </tr>-->
+        </table>
+        <p class="address"><span>收货地址：</span><span>{{saleOrder.address.areaDetail}}</span></p>
+        <p class="textInfoRight"><span>{{saleOrder.address.address}}</span></p>
+    </div>
+
+
+    <form>
+        <div class="divContent" ng-show="!confirmed">
+            <input type="checkbox" ng-click="checked(check)" ng-model="check"><span
+                class="content">我已经非常清楚订单的所有细节</span>
+        </div>
+    </form>
+
+    <button class="btnSubmit btn centerButton" id="confirmed"
+            ng-model="confirmed" ng-show="confirmed" style="color: rgb(255,255,255)">{{text}}
+    </button>
+    <div align="center" ng-show="returnOrder" ng-model="returnOrder">
+        <!--<input class="btnSubmitS" type="button" value="拒绝退单">-->
+        <!--<input class="btnSubmitS" type="button" value="同意退单">-->
+        <button type="button" id="cancel" ng-click="refuse()" class="btnSubmitS btn ml" style="color: rgb(255,255,255)">
+            拒绝退货
+        </button>
+        <button type="button" id="ok" ng-click="confirmOK()" class="btnSubmitS btn" style="color: rgb(255,255,255)">同意退货
+        </button>
+    </div>
+</div>
+<div id="advertising2">
+    <a href="tel:{{saleOrder.shop.tels}}">
+        <img class="fl" src="../image/img_dts_yellow.png">
+        <p>亲，点击此处可马上联系商家</p>
+    </a>
+</div>
+</body>
+<script src="../js/advertising.js"></script>
+<script>
+    var app = angular.module('order', []);
+    app.controller('order', function ($scope, $http) {
+
+        /*状态的箭头*/
+        $scope.imgDownOrUp = '../image/img_down.png';
+        $scope.imgTime1 = '../image/img_state.png';
+        var isDown = true;
+        $scope.imgDownOrUpC = function () {
+            if (isDown) {
+                $scope.imgDownOrUp = '../image/img_up.png';
+                $scope.imgTime1 = '../image/img_state_done.png';
+                isDown = false;
+            } else {
+                $scope.imgDownOrUp = '../image/img_down.png';
+                $scope.imgTime1 = '../image/img_state.png';
+                isDown = true;
+            }
+            if ($scope.order.orderTimes.length == 0) {
+                $scope.imgTime1 = '../image/img_state.png';
+            }
+
+        }
+
+        $scope.mingxi = '查看明细';
+        $scope.imgMingxi = '../image/img_com_more.png';
+        var isMingxi = false;
+        $scope.mingxiClick = function () {
+            if (!isMingxi) {
+                $scope.mingxi = '隐藏明细';
+                $scope.imgMingxi = '../image/img_com_small.png';
+                isMingxi = true;
+            } else {
+                $scope.mingxi = '查看明细';
+                $scope.imgMingxi = '../image/img_com_more.png';
+                isMingxi = false;
+            }
+        }
+
+        /*订单信息*/
+        var STATE_UNDO = 1, STATE_DONE = 2, STATE_REFUSE = 3, STATE_CANCEL = 4;
+        var TYPE_NEW_ORDER = 1, TYPE_CONFIRM_RETURNORDER = 3;
+
+        $scope.returnOrder = false;//两个按钮
+        $scope.confirmed = false;//已确认的按钮
+
+        /*$scope.confirm = true;
+         $scope.returnOrder = true;
+         $scope.confirmed = true;
+         document.getElementById('confirmed').disabled = 1;
+         $scope.text = '已经确认了订单';*/
+
+        var backlog;
+        $http({
+            url: '/orders/backlogDetail',
+            method: 'get'
+        }).success(function (data) {
+            backlog = data.backlog;
+            $scope.order = data.backlog.object;
+            $scope.saleOrder = data.saleOrder;
+
+            /*金额显示*/
+            for (var i = 0; i < $scope.order.returnItems.length; i++) {
+                $scope.order.returnItems[i].returnPrice = priceForRMB($scope.order.returnItems[i].returnPrice);
+                $scope.order.returnItems[i].amount = priceForRMB($scope.order.returnItems[i].amount);
+            }
+//            $scope.order.returnItems.commodity.returnPrice = priceForRMB($scope.order.returnItems.commodity.returnPrice);
+//            $scope.order.returnItems.commodity.amount = priceForRMB($scope.order.returnItems.commodity.amount);
+            $scope.order.totaltAmount = priceForRMB($scope.order.totaltAmount);
+//            $scope.saleOrder.totalReturnAmount = priceForRMB($scope.saleOrder.totalReturnAmount);
+            $scope.saleOrder.itemAmount = priceForRMB($scope.saleOrder.itemAmount);
+            for (var i = 0; i < $scope.saleOrder.amountItems.length; i++) {
+                $scope.saleOrder.amountItems[i].amount = priceForRMB($scope.saleOrder.amountItems[i].amount);
+            }
+//            $scope.saleOrder.amountItems.amountItem.amount = priceForRMB($scope.saleOrder.amountItems.amountItem.amount);
+            $scope.saleOrder.favorableAmount = priceForRMB($scope.saleOrder.favorableAmount);
+            $scope.saleOrder.totalAmount = priceForRMB($scope.saleOrder.totalAmount);
+            for (var i = 0; i < $scope.saleOrder.payAmounts.length; i++) {
+                $scope.saleOrder.payAmounts[i].amount = priceForRMB($scope.saleOrder.payAmounts[i].amount);
+            }
+//            $scope.saleOrder.payAmounts.payAmount.amount = priceForRMB($scope.saleOrder.payAmounts.payAmount.amount);
+
+            /*判断按钮的显示*/
+            if (backlog.state == STATE_UNDO) {
+                $scope.returnOrder = true;
+            }
+
+            /*已经点击确认后的按钮显示*/
+            btnBlue('confirmed', 1);
+            if (backlog.state == STATE_UNDO) {
+                $scope.confirmed = false;
+            } else {
+                $scope.confirmed = true;
+            }
+
+            if (backlog.state == STATE_DONE) {
+                if (backlog.type == TYPE_CONFIRM_RETURNORDER) {
+                    $scope.text = '已经同意了退货';
+                }
+            } else if (backlog.state == STATE_REFUSE) {
+                if (backlog.type == TYPE_CONFIRM_RETURNORDER) {
+
+                    $scope.text = '已经拒绝了退货';
+                }
+            } else if (backlog.state == STATE_CANCEL) {
+                if (backlog.type == TYPE_CONFIRM_RETURNORDER) {
+                    $scope.text = '已经取消了退货';
+
+                }
+
+            }
+
+            /*商品的图片*/
+            for (var i = 0; i < $scope.order.returnItems.length; i++) {
+                /*型号显示*/
+                var hisCommodity = $scope.order.returnItems[i].hisCommodity;
+                hisCommodity.show = true;
+                if (hisCommodity.skuName == '') {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == null) {
+                    hisCommodity.show = false;
+                }
+                if (hisCommodity.skuName == 'undefined') {
+                    hisCommodity.show = false;
+                }
+
+
+                var url = imgUrl(hisCommodity.pics);
+                hisCommodity.url = url;
+
+            }
+
+        }).error(function () {
+            alert('网络出问题了');
+        });
+
+        $scope.check = false;
+        btnBlue('cancel', 1);
+        btnBlue('ok', 1);
+        $scope.checked = function (check) {
+//            !check ? alert("未选中") : alert("选中");
+            if (check) {
+                btnBlue('cancel', 0);
+                btnBlue('ok', 0);
+            } else {
+                btnBlue('cancel', 1);
+                btnBlue('ok', 1);
+            }
+        }
+
+        $scope.confirmOK = function () {
+            /*同意退单按钮*/
+            var json = {
+                modelId: backlog.modelId,
+                state: STATE_DONE,
+                type: backlog.type
+            };
+            var serParm = JSON.stringify(json);
+
+            $.ajax({
+                type: "POST",
+                url: "/orders/doBacklog",
+                contentType: "application/json",
+                data: serParm,
+                success: function (data) {
+//                    $scope.confirmed = true;
+//                    $scope.returnOrder = false;
+//                    $scope.text = '已经同意了退单';
+                    /*刷新当前页面*/
+                    location.reload(true);
+                    alert('订单确认成功');
+                }
+            });
+        }
+        $scope.refuse = function () {
+            /*拒绝退单按钮*/
+            var json = {
+                modelId: backlog.modelId,
+                state: STATE_REFUSE,
+                type: backlog.type
+            };
+            var serParm = JSON.stringify(json);
+
+            $.ajax({
+                type: "POST",
+                url: "/orders/doBacklog",
+                contentType: "application/json",
+                data: serParm,
+                success: function (data) {
+//                    $scope.confirmed = true;
+//                    $scope.returnOrder = false;
+//                    $scope.text = '已经拒绝了退货';
+                    /*刷新当前页面*/
+                    location.reload(true);
+                    alert('订单确认成功');
+                }
+            });
+        }
+    });
+</script>
+</html>
