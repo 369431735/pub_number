@@ -1,10 +1,29 @@
 #端口配置
 server:
-   port: 8082
-   context-path: /demo #路径配置
-   spring.mvc.view.prefix: /public
-   spring.mvc.view.suffix: .jsp
-girl:
- cupsize: F
- age: 15
-cupsize: B
+   port: 8080
+  # context-path: /demo #路径配置
+spring:
+    datasource:
+       driver-calss-name: com.mysql.jdbc.Driver
+       url: jdbc:mysql://127.0.0.1:3306/lixing
+       username: lixing
+       password: 123456
+    jpa:
+        hibernate:
+          ddl-auto: update
+          show-sql: true
+
+weixinToken: b610ce7792c2409a88a6a865329785d5
+
+weixinAppId: wxfd6d468acd879cb5
+
+appSecret: 6f3fb030e2447c2f657bfe231559b49a
+
+weixinEncodingAESKey: B3EB1rlA5iyXNRMoquZbIsTkFPGlwHQPXcmwd2whG3h
+
+weixinServerName: http://lixingasd.tunnel.2bdata.com
+
+serviceServerName: http://27.0.0.1:8888/DaTouSuanWeb
+
+app:
+ name: DtsWxServer
