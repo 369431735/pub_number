@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.sang</groupId>
-	<artifactId>test20-thymeleaf1</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.lixing</groupId>
+	<artifactId>htmlTest</artifactId>
+	<version>htmlTest</version>
 	<packaging>jar</packaging>
 
 	<name>Test20-Thymeleaf1</name>
